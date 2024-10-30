@@ -36,12 +36,19 @@ vim.g.my_spellfile_path = remote_spell
 vim.g.notes_path = notes_path
 vim.opt.spellfile = remote_spell
 
+vim.opt.spellfile = remote_spell
+vim.opt.spell = true
+vim.opt.spelllang = { "en", "fr" }
+vim.opt.spellsuggest = { "double", 9 }
 local current_os = os_utils.get_os()
+
 if current_os == "Windows" then
   local windows_username = os_utils.get_windows_username()
   local sqlite_clib_path = "C:/Users/" .. windows_username .. "/AppData/Roaming/sqlite-dll/sqlite3.dll"
   vim.g.sqlite_clib_path = sqlite_clib_path
   vim.g.python3_host_prog = "C:\\python312\\python.exe"
+  vim.opt.spelllang = {} -- disable spell check for windows
+  vim.opt.spell = false
 
   local powershell_options = {
     shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
@@ -67,10 +74,6 @@ end
 
 vim.log.level = "warn"
 vim.opt.clipboard = ""
-vim.opt.spellfile = remote_spell
-vim.opt.spell = true
-vim.opt.spelllang = { "en", "fr" }
-vim.opt.spellsuggest = { "double", 9 }
 vim.opt.cursorline = false
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
