@@ -1,7 +1,7 @@
 --NOTE: for windows:
 -- DOWNLOAD SPELL FILES
--- Invoke-WebRequest -Uri "https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.spl" -OutFile "$env:APPDATA\nvim\spell\fr.utf-8.spl"
--- Invoke-WebRequest -Uri "https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.sug" -OutFile "$env:APPDATA\nvim\spell\fr.utf-8.sug"
+-- Invoke-WebRequest -Uri "https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.spl" -OutFile "$env:LOCALAPPDATA\nvim\spell\fr.utf-8.spl"
+-- Invoke-WebRequest -Uri "https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.sug" -OutFile "$env:LOCALAPPDATA\nvim\spell\fr.utf-8.sug"
 --
 local os_utils = require("utils.os_utils")
 local home = os.getenv("HOME") or "~"
