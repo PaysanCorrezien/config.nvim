@@ -5,26 +5,6 @@ local os_utils = require("utils.os_utils")
 local home = os.getenv("HOME") or "~"
 local appdata = os.getenv("APPDATA") or ""
 
-local function download_if_missing_windows(url, dest_path)
-  if vim.fn.filereadable(dest_path) == 0 then
-    local ps_cmd = string.format(
-      [[
-            powershell.exe -NoProfile -Command "
-                $ProgressPreference = 'SilentlyContinue'
-                if (-not (Test-Path '%s')) {
-                    New-Item -ItemType Directory -Force -Path (Split-Path -Path '%s')
-                    Invoke-WebRequest -Uri '%s' -OutFile '%s'
-                }
-            "]],
-      dest_path,
-      dest_path,
-      url,
-      dest_path
-    )
-    os.execute(ps_cmd)
-  end
-end
-
 vim.g.python3_host_prog = home .. "/.pyenv/versions/3.10.4/bin/python"
 
 local dictionaries_files_path = {
@@ -60,11 +40,6 @@ if current_os == "Windows" then
   local sqlite_clib_path = "C:/Users/" .. windows_username .. "/AppData/Roaming/sqlite-dll/sqlite3.dll"
   vim.g.sqlite_clib_path = sqlite_clib_path
   vim.g.python3_host_prog = "C:\\python312\\python.exe"
-
-  -- Download French spell files if missing
-  local spell_dir = appdata .. "\\nvim\\spell"
-  download_if_missing_windows("https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.spl", spell_dir .. "\\fr.utf-8.spl")
-  download_if_missing_windows("https://ftp.nluug.nl/vim/runtime/spell/fr.utf-8.sug", spell_dir .. "\\fr.utf-8.sug")
 
   local powershell_options = {
     shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
