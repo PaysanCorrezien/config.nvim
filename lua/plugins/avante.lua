@@ -5,7 +5,7 @@ return {
     lazy = false,
     opts = {
       -- provider = "copilot",
-      provder = "copilot",
+      provider = "copilot",
     },
     keys = {
       {
