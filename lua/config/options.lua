@@ -77,3 +77,10 @@ vim.opt.clipboard = ""
 vim.opt.cursorline = false
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- Set NetRW to use `ls -al` for remote directory listings to display detailed info
+vim.g.netrw_sort_by = "time" -- Sort by modification time
+-- vim.g.netrw_list_cmd = "ls -al" -- Use `ls -al` specifically for local testing
+vim.g.netrw_localcopycmdopt = "" -- Reset any potential interference with local options
+vim.g.netrw_localmovecmdopt = "" -- Reset move command options
+vim.g.netrw_liststyle = 1 -- Enforce long listing style

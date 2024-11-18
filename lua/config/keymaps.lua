@@ -201,3 +201,58 @@ vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right)
 -- vim.keymap.set("n", "<leader><leader>j", require("smart-splits").swap_buf_down)
 -- vim.keymap.set("n", "<leader><leader>k", require("smart-splits").swap_buf_up)
 -- vim.keymap.set("n", "<leader><leader>l", require("smart-splits").swap_buf_right)
+local function open_netrw_remote_home()
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+  local conf = require("telescope.config").values
+
+  -- Fetch list of SSH hosts from known_hosts or ssh config
+  local ssh_hosts = {}
+  local handle = io.popen("awk '{print $1}' ~/.ssh/known_hosts | cut -d ',' -f 1")
+  if handle then
+    for line in handle:lines() do
+      table.insert(ssh_hosts, line)
+    end
+    handle:close()
+  end
+
+  -- Telescope picker for SSH hosts
+  pickers
+    .new({}, {
+      prompt_title = "Select SSH Host",
+      finder = finders.new_table({
+        results = ssh_hosts,
+      }),
+      sorter = conf.generic_sorter({}),
+      attach_mappings = function(prompt_bufnr, map)
+        actions.select_default:replace(function()
+          actions.close(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          local host = selection[1]
+
+          -- Prompt for username
+          vim.ui.input({ prompt = "Enter username: " }, function(user)
+            if not user or user == "" then
+              return
+            end
+
+            -- Open NetRW at remote home directory
+            local remote_path = string.format("scp://%s@%s//home/%s/", user, host, user)
+            vim.cmd("edit " .. remote_path)
+          end)
+        end)
+        return true
+      end,
+    })
+    :find()
+end
+
+-- Set the key binding
+vim.keymap.set(
+  "n",
+  "<leader>sR",
+  open_netrw_remote_home,
+  { noremap = true, silent = true, desc = "Open NetRW at remote home" }
+)
