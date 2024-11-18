@@ -232,8 +232,8 @@ local function open_netrw_remote_home()
           local selection = action_state.get_selected_entry()
           local host = selection[1]
 
-          -- Prompt for username
-          vim.ui.input({ prompt = "Enter username: " }, function(user)
+          -- Prompt for username with "dylan" preset
+          vim.ui.input({ prompt = "Enter username: ", default = "dylan" }, function(user)
             if not user or user == "" then
               return
             end

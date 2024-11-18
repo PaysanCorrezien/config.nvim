@@ -1,8 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.lang.clangd",
-    "lazyvim.plugins.extras.lang.nushell",
-    "lazyvim.plugins.extras.vscode"
+    "lazyvim.plugins.extras.lang.nushell"
   ],
   "news": {
     "NEWS.md": "7107"
