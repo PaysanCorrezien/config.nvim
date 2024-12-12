@@ -24,7 +24,6 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 -- vim.keymap.set("n", "<leader>S", "<cmd>%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gIc<Left><Left><Left><Left><Left><cr>") -- search and replace with highlight and confirmation
 vim.keymap.set("n", "<S-Up>", "ddkP") --move line up on normal mode with shift
 vim.keymap.set("n", "<S-Down>", "ddp") --move line down on normal mode with shift
-vim.api.nvim_set_keymap("n", "<C-a>", ':lua vim.cmd("normal! ggVG")<CR>', { noremap = true }) -- Select ALL
 
 vim.keymap.set("n", "L", "vg_", { desc = "Select to end of line" })
 -- Normal mode mappings
@@ -67,7 +66,11 @@ vim.keymap.set("n", "<leader>gL", "<cmd>Gitsigns setloclist<CR>", { desc = "Git 
 
 -- Visual mode mappings
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy Y", silent = true })
-vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy Y" })
+vim.api.nvim_set_keymap("n", "<C-a>", ':lua vim.cmd("normal! ggVG")<CR>', { noremap = true }) -- Select ALL
+vim.keymap.set("n", "<leader>Y", function()
+  vim.cmd("normal! ggVG")
+  vim.cmd('normal! "+y')
+end, { desc = "Copy whole file", silent = true })
 -- BufferLine mappings
 -- for tab number
 --
@@ -256,3 +259,8 @@ vim.keymap.set(
   open_netrw_remote_home,
   { noremap = true, silent = true, desc = "Open NetRW at remote home" }
 )
+-- Duplicate a line and comment out the first line
+-- vim.keymap.set("n", "yc", "yygccp", { remap = true, desc = "Duplicate line and comment out" })
+vim.keymap.set("n", "yc", "yygccp", { remap = true, desc = "Duplicate line and comment out" })
+
+vim.keymap.set("n", "gp", "`[v`]", { desc = "Select recently pasted, yanked or changed text" })
