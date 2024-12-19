@@ -31,15 +31,6 @@ local remote_ltex_ls = os_utils.get_setting(dictionaries_files_path.remote_ltex_
 local remote_spell = os_utils.get_setting(dictionaries_files_path.remote_spell)
 local notes_path = os_utils.get_setting(dictionaries_files_path.notes_path)
 
-vim.g.my_ltexfile_path = remote_ltex_ls
-vim.g.my_spellfile_path = remote_spell
-vim.g.notes_path = notes_path
-vim.opt.spellfile = remote_spell
-
-vim.opt.spellfile = remote_spell
-vim.opt.spell = true
-vim.opt.spelllang = { "en", "fr" }
-vim.opt.spellsuggest = { "double", 9 }
 local current_os = os_utils.get_os()
 
 if current_os == "Windows" then
@@ -63,6 +54,15 @@ if current_os == "Windows" then
     vim.opt[option] = value
   end
 else
+  vim.g.my_ltexfile_path = remote_ltex_ls
+  vim.g.my_spellfile_path = remote_spell
+  vim.g.notes_path = notes_path
+  vim.opt.spellfile = remote_spell
+
+  vim.opt.spellfile = remote_spell
+  vim.opt.spell = true
+  vim.opt.spelllang = { "en", "fr" }
+  vim.opt.spellsuggest = { "double", 9 }
   local sql_clib_path = vim.env.SQL_CLIB_PATH
   if sql_clib_path and sql_clib_path ~= "" then
     vim.g.sqlite_clib_path = sql_clib_path
