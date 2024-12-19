@@ -6,8 +6,44 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+--  windows utils
+local os_utils = require("utils.os_utils")
+local current_os = os_utils.get_os()
+
+local function should_include_plugin(os_condition)
+  if not os_condition then
+    return true -- if no condition specified, always include
+  end
+
+  if type(os_condition) == "string" then
+    return current_os == os_condition
+  elseif type(os_condition) == "table" then
+    for _, os in ipairs(os_condition) do
+      if current_os == os then
+        return true
+      end
+    end
+  end
+  return false
+end
+
+-- Filter plugins based on OS conditions
+local function get_enabled_plugins(plugins)
+  local enabled = {}
+  for _, plugin in ipairs(plugins) do
+    if should_include_plugin(plugin.enabled_on) then
+      -- Remove the enabled_on field before adding to final list
+      local plugin_copy = vim.tbl_extend("force", {}, plugin)
+      plugin_copy.enabled_on = nil
+      table.insert(enabled, plugin_copy)
+    end
+  end
+  return enabled
+end
+
 require("lazy").setup({
-  spec = {
+  -- spec = {
+  spec = get_enabled_plugins({
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import any extras modules here
@@ -47,7 +83,9 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.tailwind" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.toml" },
-    { import = "lazyvim.plugins.extras.lang.nix" },
+    { import = "lazyvim.plugins.extras.lang.nix", enabled_on = "Linux" },
+    -- { import = "lazyvim.plugins.extras.lang.nix" },
+
     { import = "lazyvim.plugins.extras.lang.sql" },
     { import = "lazyvim.plugins.extras.lang.yaml" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
@@ -57,7 +95,8 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.test.core" },
 
     { import = "lazyvim.plugins.extras.ui.alpha" },
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    { import = "lazyvim.plugins.extras.ui.mini-animate", enabled_on = "Linux" },
+    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
     { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
 
@@ -75,7 +114,7 @@ require("lazy").setup({
 
     -- import/override with your plugins
     { import = "plugins" },
-  },
+  }),
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
