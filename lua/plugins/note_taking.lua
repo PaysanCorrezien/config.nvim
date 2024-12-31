@@ -1,5 +1,3 @@
-local cmp = require("cmp")
-
 local os_utils = require("utils.os_utils")
 
 -- Base configuration for different OS environments

@@ -3,6 +3,7 @@
     "lazyvim.plugins.extras.coding.blink",
     "lazyvim.plugins.extras.lang.clangd",
     "lazyvim.plugins.extras.lang.nushell",
+    "lazyvim.plugins.extras.lang.svelte",
     "lazyvim.plugins.extras.ui.dashboard-nvim",
     "lazyvim.plugins.extras.util.rest",
     "lazyvim.plugins.extras.vscode"
