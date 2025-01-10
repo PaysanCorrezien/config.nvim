@@ -61,14 +61,14 @@ function M.to_wsl_path(windows_path)
   end
 
   local windows_username = M.get_windows_username()
-  print("Type of windows_username: ", type(windows_username)) -- Debug statement
+  -- print("Type of windows_username: ", type(windows_username)) -- Debug statement
 
   if type(windows_username) ~= "string" then
     error("Invalid windows_username: Expected a string, got " .. type(windows_username))
   end
 
   local converted_path = windows_path:gsub("C:\\Users\\" .. windows_username, "/mnt/c/Users/" .. windows_username)
-  print("Converted path: ", converted_path) -- Debug statement
+  -- print("Converted path: ", converted_path) -- Debug statement
   return converted_path
 end
 
@@ -83,10 +83,18 @@ end
 
 -- Updated Function to get settings
 function M.get_setting(settings)
+  -- print("DEBUG - get_setting input:", vim.inspect(settings))
+
   local os = M.get_os()
+  -- print("DEBUG - Current OS:", os)
+
+  if settings == nil then
+    error("Settings parameter is nil")
+  end
 
   -- If settings is a string, it's a path that needs conversion
   if type(settings) == "string" then
+    -- print("DEBUG - Converting string path:", settings)
     if os == "Windows" then
       return M.to_windows_path(settings)
     else
@@ -94,23 +102,40 @@ function M.get_setting(settings)
     end
   end
 
-  -- If settings is a table, handle it as before
+  -- If settings is a table, get the OS-specific setting
+  if type(settings) ~= "table" then
+    error("Settings must be either a string or a table, got " .. type(settings))
+  end
+
   local setting = settings[os]
+  -- print("DEBUG - OS-specific setting:", vim.inspect(setting))
 
   if setting == nil and settings.default ~= nil then
     setting = settings.default
+    -- print("DEBUG - Using default setting:", vim.inspect(setting))
   end
 
   if setting == nil then
-    error("No setting found for the current OS and no default setting provided.")
+    error(
+      string.format(
+        "No setting found for OS '%s' and no default provided. Available settings: %s",
+        os,
+        vim.inspect(vim.tbl_keys(settings))
+      )
+    )
   end
 
-  if os == "Windows" then
+  if os == "Windows" and type(setting) == "string" then
     local username = M.get_windows_username()
+    -- print("DEBUG - Windows username:", username)
     setting = setting:gsub("dylan", username)
   end
 
-  return M.convert_path(setting)
+  if type(setting) == "string" then
+    return M.convert_path(setting)
+  end
+
+  return setting
 end
 
 return M
