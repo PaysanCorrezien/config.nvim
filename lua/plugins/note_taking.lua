@@ -26,7 +26,7 @@ end
 -- Path joining helper
 local function join_path(...)
   local parts = { ... }
-  print("DEBUG - Joining path parts:", vim.inspect(parts))
+  -- print("DEBUG - Joining path parts:", vim.inspect(parts))
   return table.concat(parts, "\\")
 end
 
