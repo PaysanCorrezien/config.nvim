@@ -110,7 +110,8 @@ local function create_path_config()
         Linux = build_path("notes", "3-Ressources", "Images"),
       },
       templates = {
-        Windows = build_path("notes", "Projets", "Templates"),
+        -- Documents\Notes\3-Ressources\Templates
+        Windows = build_path("notes", "3-Ressources", "Templates"),
         WSL = build_path("notes", "Projets", "Templates"),
         Linux = build_path("notes", "3-Ressources", "Templates"),
       },
@@ -447,7 +448,6 @@ return {
       },
       { "<leader>zt", "<cmd>ObsidianTemplate<CR>", desc = "Template" },
       { "<leader>zT", "<cmd>ObsidianTemplate knowledge.md<CR>", desc = "Default Template" },
-      -- [Rest of your existing key mappings...]
     },
   },
   {
