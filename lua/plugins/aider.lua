@@ -93,17 +93,17 @@ return {
         desc = "Gitsigns pick reversals",
       },
       {
-        "<leader>dvh",
+        "<leader>adh",
         "<cmd>DiffviewOpen HEAD^<CR>",
         desc = "Diffview HEAD^",
       },
       {
-        "<leader>dvo",
+        "<leader>ado",
         "<cmd>DiffviewOpen<CR>",
         desc = "Diffview",
       },
       {
-        "<leader>dvc",
+        "<leader>adc",
         "<cmd>DiffviewClose!<CR>",
         desc = "Diffview close",
       },
