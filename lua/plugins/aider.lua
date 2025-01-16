@@ -77,7 +77,7 @@ return {
       },
       {
         "<leader>amc",
-        "<cmd>AidemrSend /model codestral-latest<CR>",
+        "<cmd>AiderSend /model codestral-latest<CR>",
         desc = "Switch to codestral",
       },
       {
