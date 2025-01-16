@@ -40,6 +40,7 @@ if current_os == "Windows" then
   vim.g.python3_host_prog = "C:\\python312\\python.exe"
   vim.opt.spelllang = {} -- disable spell check for windows
   vim.opt.spell = false
+  vim.opt.shadafile = ""
 
   local powershell_options = {
     shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
