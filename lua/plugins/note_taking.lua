@@ -430,6 +430,7 @@ return {
       })
     end,
     keys = {
+
       { "<leader>zf", "<cmd>ObsidianQuickSwitch<CR>", desc = "Find Notes" },
       { "<leader>zG", "<cmd>ObsidianSearch<CR>", desc = "Grep Notes" },
       { "<leader>zg", "<cmd>ObsidianFollowLink<CR>", desc = "Follow Link", mode = { "n", "v" } },
@@ -437,7 +438,7 @@ return {
       { "<leader>zC", "<cmd>ObsidianCheck<CR>", desc = "Checks" },
       { "<leader>zi", "<cmd>ObsidianPasteImg<CR>", desc = "Insert IMG" },
       {
-        "<leader>zR",
+        "<leader>zR", -- BUG:  cant rename my notes ? path issue maybe
         function()
           local input = vim.fn.input("Enter new note title: ")
           if input ~= "" then
@@ -448,6 +449,145 @@ return {
       },
       { "<leader>zt", "<cmd>ObsidianTemplate<CR>", desc = "Template" },
       { "<leader>zT", "<cmd>ObsidianTemplate knowledge.md<CR>", desc = "Default Template" },
+      {
+        "<leader>zn",
+        function()
+          local input = vim.fn.input("Enter note title: ")
+          if input ~= "" then
+            vim.cmd("ObsidianNew " .. input)
+          end
+        end,
+        desc = "New Note in Docs/KnowledgeBase with input prompt",
+      },
+      {
+        "<leader>zr",
+        function()
+          -- Define the Resources folder path
+          local resources_folder = vim.fn.expand("$HOME/Documents/Notes/3-Ressources")
+
+          -- Prompt for note title
+          local note_title = vim.fn.input("Enter note title: ")
+          if note_title == "" then
+            print("Note creation cancelled")
+            return
+          end
+
+          -- Create file path
+          local file_path = resources_folder .. "/" .. note_title:gsub(" ", "_") .. ".md"
+
+          -- Create the new file
+          local file = io.open(file_path, "w")
+          if file then
+            file:close()
+            print("Created new note: " .. file_path)
+
+            -- Open the new file
+            vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+
+            -- Apply the Quick Note template
+            vim.cmd("ObsidianTemplate Quick Note.md")
+          else
+            print("Failed to create note: " .. file_path)
+          end
+        end,
+        desc = "Quick Ressource Note",
+      },
+      {
+        "<leader>zN",
+        function()
+          local base_dirs = {
+            vim.fn.expand("$HOME/Documents") .. "/Notes/1-Projets",
+            vim.fn.expand("$HOME/Documents") .. "/Notes/2-Area",
+            -- vim.fn.expand("$HOME/Documents") .. "/Notes/3-Ressources",
+          }
+
+          -- Collect all subdirectories using fd
+          local all_subdirs = {}
+          for _, dir in ipairs(base_dirs) do
+            local handle = io.popen('fd . "' .. dir .. '" -t d')
+            if handle then
+              for subdir in handle:lines() do
+                table.insert(all_subdirs, subdir)
+              end
+              handle:close()
+            end
+          end
+
+          -- Use Telescope to select a folder
+          require("telescope.pickers")
+            .new({}, {
+              prompt_title = "Select folder for new note",
+              finder = require("telescope.finders").new_table({
+                results = all_subdirs,
+              }),
+              sorter = require("telescope.config").values.generic_sorter({}),
+              attach_mappings = function(prompt_bufnr, map)
+                map("i", "<CR>", function()
+                  local selection = require("telescope.actions.state").get_selected_entry()
+                  require("telescope.actions").close(prompt_bufnr)
+
+                  local folder = selection[1]
+                  -- Prompt for note name
+                  local note_name = vim.fn.input("Enter note name: ")
+                  if note_name == "" then
+                    print("Note creation cancelled")
+                    return
+                  end
+                  -- Create the new file
+                  local file_path = folder .. "/" .. note_name .. ".md"
+                  local file = io.open(file_path, "w")
+                  if file then
+                    file:close()
+                    print("Created new note: " .. file_path)
+                    -- Open the new file
+                    vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+                    -- Run ObsidianTemplate to select a template
+                    vim.cmd("ObsidianTemplate")
+                  else
+                    print("Failed to create note: " .. file_path)
+                  end
+                end)
+                return true
+              end,
+            })
+            :find()
+        end,
+        desc = "Create custom Obsidian note",
+      },
+      { "<leader>zB", "<cmd>ObsidianBacklinks<CR>", desc = "Backlinks" },
+      { "<leader>zL", "<cmd>ObsidianLink<CR>", desc = "Link", mode = { "n", "v" } },
+      { "<leader>zl", "<cmd>ObsidianLinkNew<CR>", desc = "Link New", mode = { "n", "v" } },
+      -- TODO: Replace this with copilichatprompt
+      -- {
+      -- 	"<leader>zS",
+      -- 	"<cmd>ChatGPTRun completeFromSkeleton<cr>",
+      -- 	desc = "AI - Draft Post",
+      -- 	mode = { "n", "v" },
+      -- },
+      { "<leader>zC", "<Cmd>lua PdfToImage()<CR>", desc = "Convert PDF to Image" },
+      { "<leader>zL", "<cmd>DictionaryPickLang<CR>", desc = "Change LSP Lang" },
+      { "<leader>zU", "<cmd>DictionaryUpdate<CR>", desc = "Edit Dicts" },
+
+      { "<leader>zF", "<cmd>DictionaryUpdateLspLang fr<CR>", desc = "LspLang French" },
+      { "<leader>zE", "<cmd>DictionaryUpdateLspLang en<CR>", desc = "LspLang English" },
+      {
+        "<leader>zW",
+        function()
+          local input = vim.fn.input("Enter workspace name: ")
+          if input ~= "" then
+            vim.cmd("ObsidianWorkspace " .. input)
+          end
+        end,
+        desc = "Workspace Switch",
+      },
+
+      {
+        "<leader>zx",
+        function()
+          return require("obsidian").util.toggle_checkbox()
+        end,
+        desc = "Toggle Checkbox",
+      },
     },
   },
   {
