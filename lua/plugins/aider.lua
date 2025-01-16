@@ -40,18 +40,18 @@ return {
         "<cmd>AiderToggle float<CR>",
         desc = "Toggle Aider Float",
       },
-      {
-        "<leader>av",
-        "<cmd>AiderToggle vertical<CR>",
-        desc = "Toggle Aider Float",
-      },
+      -- {
+      --   "<leader>av",
+      --   "<cmd>AiderToggle vertical<CR>",
+      --   desc = "Toggle Aider Float",
+      -- },
       {
         "<leader>al",
         "<cmd>AiderAdd<CR>",
         desc = "Add file to aider",
       },
       {
-        "<leader>ad",
+        "<leader>av",
         "<cmd>AiderAsk<CR>",
         desc = "Ask with selection",
         mode = { "v", "n" },
