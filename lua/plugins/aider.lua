@@ -113,7 +113,7 @@ return {
         desc = "Add AI comment",
       },
       {
-        "<leader>ac!",
+        "<leader>aC",
         "<cmd>AiderComment!<CR>",
         desc = "Add AI! comment",
       },
