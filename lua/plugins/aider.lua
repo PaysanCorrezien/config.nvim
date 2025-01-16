@@ -107,6 +107,26 @@ return {
         "<cmd>DiffviewClose!<CR>",
         desc = "Diffview close",
       },
+      {
+        "<leader>ac",
+        "<cmd>AiderComment<CR>",
+        desc = "Add AI comment",
+      },
+      {
+        "<leader>ac!",
+        "<cmd>AiderComment!<CR>",
+        desc = "Add AI! comment",
+      },
+      {
+        "<leader>aq",
+        "<cmd>AiderAsk<CR>",
+        desc = "Ask a question",
+      },
+      {
+        "<leader>ar",
+        "<cmd>AiderReadOnly<CR>",
+        desc = "Add file to aider in read-only mode",
+      },
     },
   },
 }
