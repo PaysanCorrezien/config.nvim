@@ -57,6 +57,11 @@ return {
         mode = { "v", "n" },
       },
       {
+        "<leader>ag",
+        "<cmd>AiderSend /commit<CR>",
+        desc = "Aider commit dirty files",
+      },
+      {
         "<leader>am",
         desc = "Change model",
       },
@@ -77,7 +82,7 @@ return {
       },
       {
         "<leader>amc",
-        "<cmd>AiderSend /model codestral-latest<CR>",
+        "<cmd> AiderSend /model mistral/codestral-latest<CR>",
         desc = "Switch to codestral",
       },
       {
