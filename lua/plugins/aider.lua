@@ -133,7 +133,7 @@ return {
         desc = "Ask a question",
       },
       {
-        "<leader>ar",
+        "<leader>aR",
         "<cmd>AiderSend /reset<CR>",
         desc = "Reset aider chat",
       },
