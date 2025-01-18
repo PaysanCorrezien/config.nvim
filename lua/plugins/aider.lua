@@ -86,6 +86,11 @@ return {
         desc = "Switch to codestral",
       },
       {
+        "<leader>amd",
+        "<cmd>AiderSend /model deepseek/deepseek-chat<CR>",
+        desc = "Switch to deepseek-chat",
+      },
+      {
         "<C-x>",
         "<cmd>AiderToggle<CR>",
         desc = "Toggle Aider",
