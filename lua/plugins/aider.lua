@@ -134,6 +134,11 @@ return {
       },
       {
         "<leader>ar",
+        "<cmd>AiderSend /reset<CR>",
+        desc = "Reset aider chat",
+      },
+      {
+        "<leader>ar",
         "<cmd>AiderReadOnly<CR>",
         desc = "Add file to aider in read-only mode",
       },
