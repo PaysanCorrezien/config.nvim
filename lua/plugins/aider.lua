@@ -92,7 +92,7 @@ return {
       },
       {
         "<leader>amD",
-        "<cmd>AiderSend /model deepseek/reasoner<CR>",
+        "<cmd>AiderSend /model deepseek-reasoner<CR>",
         desc = "Switch to deepseek-reasoner",
       },
       {
