@@ -91,6 +91,11 @@ return {
         desc = "Switch to deepseek-chat",
       },
       {
+        "<leader>amD",
+        "<cmd>AiderSend /model deepseek/reasoner<CR>",
+        desc = "Switch to deepseek-reasoner",
+      },
+      {
         "<C-x>",
         "<cmd>AiderToggle<CR>",
         desc = "Toggle Aider",
